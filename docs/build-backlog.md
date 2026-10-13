@@ -21,7 +21,7 @@ L (a week or more).
 
 | ID | Item | Plan | Depends on | Size | Status | Owner |
 |---|---|---|---|---|---|---|
-| B01 | Repo scaffold: `marketplace.json` with the four plugin skeletons, `supported-versions.json`, README with install steps (dependencies first, from their own marketplaces), repo `CLAUDE.md` with the "what's next" procedure, `contributing.md` | 3, 4.1, 4.3, 13 | | S | Open | |
+| B01 | Repo scaffold: `marketplace.json` with the five plugin skeletons, `supported-versions.json`, README with install steps (dependencies first, from their own marketplaces), repo `CLAUDE.md` with the "what's next" procedure, `contributing.md` | 3, 4.1, 4.3, 13 | | S | Open | |
 | B02 | CI: secret scan, client-name/org-ID denylist check (denylist kept outside the repo), SKILL.md frontmatter lint, catalog generator and freshness check | 10, 12 | B01 | M | Open | |
 | B03 | Eval harness: fixture SFDX project (prefix `acme_`) and a local runner for scenario evals with superpowers at the supported version, producing a results file to attach to PRs | 12 | B01 | M | Open | |
 | B04 | Profile template `templates/project-profile.md` (fields, defaults, "Workflow adjustments" block) | 5 | B01 | S | Open | |
@@ -32,7 +32,9 @@ L (a week or more).
 | B09 | C4 `salesforce-platform-gotchas` | C4, App. D | B01 | S | Open | |
 | B10 | C5 `verifying-salesforce-work` (verify script) and C6 Code Analyzer convention rules | 7.4, 7.5, C5, C6 | B03, B04 | L | Open | |
 
-## Phase 1, track A: delivery workflow (P1)
+## Phase 1, track A: ticket workflow (P1)
+
+B11 to B16 are `sfai-solutioning`, B18 and B19 are `sfai-build`, B17, B20 and B21 are `sfai-core`.
 
 | ID | Item | Plan | Depends on | Size | Status | Owner |
 |---|---|---|---|---|---|---|
@@ -48,12 +50,13 @@ L (a week or more).
 | B20 | D9 `reviewing-salesforce-changes` | D9 | B08 | S | Open | |
 | B21 | D11 `salesforce-automation-patterns` | D11, App. E | B01 | S | Open | |
 
-## Phase 1, track B: reporting (P1)
+## Phase 1, track B: project updates (P1)
 
 | ID | Item | Plan | Depends on | Size | Status | Owner |
 |---|---|---|---|---|---|---|
 | B22 | R1 `writing-personal-updates` | 8, R1, App. G | B04 | M | Open | |
 | B23 | R2 `compiling-weekly-roundups` | 8, R2, App. G | B22 | M | Open | |
+| B32 | R3 `writing-release-notes` | 8, R3, App. G | B04, B11 | M | Open | |
 
 ## Phase 1, track C: UI testing spike (P1)
 

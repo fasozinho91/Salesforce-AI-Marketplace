@@ -15,7 +15,7 @@ written for the architects who will build it. The ordered work list lives in
 5. [The project profile](#5-the-project-profile)
 6. [How we adjust superpowers](#6-how-we-adjust-superpowers)
 7. [The ticket delivery workflow](#7-the-ticket-delivery-workflow)
-8. [Reporting](#8-reporting)
+8. [Project updates](#8-project-updates)
 9. [Org health assessment](#9-org-health-assessment)
 10. [Roles and the catalog](#10-roles-and-the-catalog)
 11. [Skill catalog](#11-skill-catalog)
@@ -28,7 +28,7 @@ written for the architects who will build it. The ordered work list lives in
   [D Verified platform gotchas](#appendix-d-verified-platform-gotchas) ·
   [E Automation patterns](#appendix-e-automation-patterns) ·
   [F Logging standard](#appendix-f-logging-standard) ·
-  [G Round-up and personal update formats](#appendix-g-round-up-and-personal-update-formats) ·
+  [G Project update formats](#appendix-g-project-update-formats) ·
   [H Org assessment artifacts](#appendix-h-org-assessment-artifacts) ·
   [I Ticket document set](#appendix-i-ticket-document-set)
 
@@ -78,7 +78,7 @@ applies to them.
 3. **Testing that fits Salesforce:** UAT test cases approved first, Apex test-first, declarative
    changes verified against the approved cases, and functional QA done by the agent wherever it
    can, including clicking through the UI.
-4. **Reporting:** personal updates and weekly round-ups.
+4. **Project updates:** personal updates, weekly round-ups and release notes.
 5. **Org health assessment:** read-only production assessment with client deliverables.
 6. **Role-based catalog:** every skill lists the roles it serves.
 7. **Build on, don't replace:** superpowers and the Salesforce plugins stay the engines; this
@@ -152,12 +152,13 @@ applies to them.
                     | adjusts                          | adds conventions to
  Layer 1  this marketplace
           +------------------------------------------------------------------+
-          | sfai-core           bootstrap, project setup, naming, gotchas,   |
-          |                     verify command, branch lifecycle, hooks      |
-          | sfai-delivery       ticket workflow skills                       |
-          | sfai-reporting      personal update, weekly round-up             |
-          | sfai-assessment     org health assessment                        |
-          | templates           profile template, ticket document templates  |
+          | sfai-core             bootstrap, setup, naming, gotchas,         |
+          |                       patterns, verify, branches, review, hooks  |
+          | sfai-solutioning      intake to approved design and test cases   |
+          | sfai-build            Apex test-first, QA, deploy, logging       |
+          | sfai-project-updates  personal update, round-up, release notes   |
+          | sfai-assessment       org health assessment                      |
+          | templates             profile, ticket document templates         |
           +-----------------------------------^------------------------------+
                                               | reads
  Layer 2  each project
@@ -166,15 +167,17 @@ applies to them.
           +------------------------------------------------------------------+
 ```
 
-**Nodes:** superpowers; Salesforce plugins; the four marketplace plugins; the project profile.
+**Nodes:** superpowers; Salesforce plugins; the five marketplace plugins; the project profile.
 **Edges:**
 
 - `sfai-core` → superpowers: adjusts named steps (where documents go, branching, question
   handling, test command, finish gate). See [section 6](#6-how-we-adjust-superpowers).
-- `sfai-delivery` → Salesforce plugins: calls their generators, deploy and test skills, then
+- `sfai-build` → Salesforce plugins: calls their generators, deploy and test skills, then
   applies naming, descriptions and review rules to the result.
-- `sfai-delivery`, `sfai-reporting`, `sfai-assessment` → `sfai-core`: all read the
-  profile and use the core verify command and hooks.
+- `sfai-solutioning` → `sfai-build`: hands over through files only (approved test cases, solution
+  design). Neither plugin requires the other to be installed.
+- `sfai-solutioning`, `sfai-build`, `sfai-project-updates`, `sfai-assessment` → `sfai-core`: all
+  read the profile and use the core verify command and hooks.
 - Every Layer 1 skill → project profile: reads the project's values. No skill hard-codes a
   project's conventions.
 
@@ -182,13 +185,29 @@ applies to them.
 
 | Plugin | Contents | Install |
 |---|---|---|
-| `sfai-core` | Bootstrap, project setup, naming standard, platform gotchas, verify command and Code Analyzer rules, branch lifecycle, hooks, lesson contribution | Required |
-| `sfai-delivery` | Ticket workflow: intake, impact analysis, UI design gate, solution design, UAT test cases, Apex test-first, functional QA, safe deploy, review lens, automation patterns, logging | Most delivery roles |
-| `sfai-reporting` | Personal update, weekly round-up | PMs and anyone asked for updates |
+| `sfai-core` | Bootstrap, project setup, naming standard, platform gotchas, automation patterns, verify command and Code Analyzer rules, branch lifecycle, review lens, hooks, lesson contribution | Required, everyone |
+| `sfai-solutioning` | Ticket stages 1 to 6: intake, impact analysis, UI design gate, solution design, UAT test cases | Architects, BAs, leads |
+| `sfai-build` | Ticket stages 7 to 13: Apex test-first, functional QA, safe deploy, logging | Developers, admins, QA |
+| `sfai-project-updates` | Personal update, weekly round-up, release notes | PMs, leads, anyone asked for updates |
 | `sfai-assessment` | Org health assessment | Architects, leads |
 
-Workflow-grouped plugins let a client team install only what it needs. Roles are tags on skills,
-not plugin boundaries, because many skills serve several roles.
+**Why five plugins.** Every installed skill adds its description to every session. The token cost
+is small; the real cost is relevance: more skills means more chances the agent picks the wrong one,
+and people see skills that aren't theirs.
+
+- **One plugin** would give a developer project-update and assessment skills, and give a client team
+  skills it never uses.
+- **One plugin per role** doesn't work because most skills serve several roles (UAT test cases
+  serve BAs, QA, developers and admins); skills would be duplicated or placed arbitrarily. Roles
+  are tags on skills instead ([section 10](#10-roles-and-the-catalog)).
+- **By workflow** lets people install what they do. The ticket workflow splits at the approval gate
+  (stage 6) because that is where work usually changes hands: architects and BAs take a ticket to
+  an approved design and approved test cases, developers and admins build it. Someone who does the
+  whole ticket installs both.
+- **Core** holds what every other plugin depends on (profile, verify command, hooks) and anything
+  used on both sides of the gate: naming, gotchas, automation patterns, and the review lens, which
+  core's finish gate requires.
+- Every plugin depends only on core, never on another plugin.
 
 ### 4.2 How adjustments reach superpowers
 
@@ -210,7 +229,7 @@ Each adjustment has an eval proving superpowers honors it ([section 12](#12-how-
 
 ```
 Salesforce-AI-Marketplace/
-  .claude-plugin/marketplace.json     our four plugins
+  .claude-plugin/marketplace.json     our five plugins
   supported-versions.json             superpowers and Salesforce plugin versions the evals passed against
   plugins/
     sfai-core/
@@ -219,8 +238,9 @@ Salesforce-AI-Marketplace/
       hooks/                         Node hook scripts + hooks.json
       scripts/                       Node scripts (verify, setup helpers)
       code-analyzer/                 custom rules
-    sfai-delivery/ ...
-    sfai-reporting/ ...
+    sfai-solutioning/ ...
+    sfai-build/ ...
+    sfai-project-updates/ ...
     sfai-assessment/ ...
   templates/
     project-profile.md               the profile template
@@ -302,8 +322,9 @@ adjustments" block). The `CLAUDE.md` that loads it imports it with `@sf-project-
 | Testing | UAT delivery | Text in chat for pasting into the tracker, plus the test-cases file | (ask) |
 | Logging | Framework | None; Nebula Logger if installed | Installed packages, `Logger.` calls |
 | Logging | Tags, scenarios, flow error prefix | Empty; `Error Logged` | Existing code |
-| Reporting | Reporting folder (weekly files, notes, personal updates) | `weekly-roundups/` in the project repo, kept on the default branch, never in ticket branches | Existing folders |
-| Reporting | Round-up template document | (ask, only when reporting is used) | |
+| Project updates | Updates folder (weekly files, notes, personal updates) | `weekly-roundups/` in the project repo, kept on the default branch, never in ticket branches | Existing folders |
+| Project updates | Round-up template document | (ask, only when round-ups are used) | |
+| Project updates | Release notes folder | `release-notes/` in the project repo, on the default branch | Existing folders |
 | Agents | Model/effort mapping override | Team default ([section 3](#3-constraints)) | |
 | Gotchas | Project-specific gotchas | Empty | Added as they are found |
 
@@ -324,7 +345,7 @@ profile, the bootstrap offers to run setup. Setup can be re-run at any time to u
 | Writing plans: test command | `npm test`, `pytest`, etc. | The core verify command ([skill C5](#c5-verifying-salesforce-work)) | Bootstrap |
 | Writing plans: global constraints | From the spec | Also the profile's conventions (naming, descriptions, flow policy) | Bootstrap |
 | Worktrees | Built-in tool creates `.claude/worktrees/<name>` from the remote's default branch; git fallback edits and commits `.gitignore` | Fetch, then branch from the remote copy of the profile's base for this branch type; create the worktree in the profile's location; enter it with the built-in tool by path; never edit a tracked `.gitignore` the team doesn't own (use `.git/info/exclude`) | `managing-ticket-branches` + hook |
-| Test-driven development | Failing test first for all production code | By kind of work ([section 7.4](#74-testing-by-kind-of-work)). Approved UAT cases come before any of it | Bootstrap + delivery skills |
+| Test-driven development | Failing test first for all production code | By kind of work ([section 7.4](#74-testing-by-kind-of-work)). Approved UAT cases come before any of it | Bootstrap + solutioning and build skills |
 | Executing plans: "rulings" | Agent settles any ambiguity itself and keeps going | Technical: decide and record. Business or functional: stop and ask ([section 7.3](#73-questions-and-decisions)) | Bootstrap |
 | Executing plans: when to stop | Destructive ops, security, merges/pushes/publishing, hopeless plan | Also: any deploy outside the working org, any data change, any production access beyond read-only | Bootstrap + hook |
 | Verification before completion | Evidence from a test command | Evidence per level of done ([section 7.5](#75-definition-of-done)) | Bootstrap + C5 |
@@ -449,9 +470,9 @@ verified only by reading metadata is "Not run", never "Pass".
 | Full profile files | Never deployed whole; send a sparse payload with only the changed permissions |
 | Field-level security | On permission sets, never profiles |
 
-## 8. Reporting
+## 8. Project updates
 
-Two skills, one shape. Details in [Appendix G](#appendix-g-round-up-and-personal-update-formats).
+Three skills, one style. Details in [Appendix G](#appendix-g-project-update-formats).
 
 - **Personal update** (Everyone): a team member's week, for a PM who asked for it. Built from the
   person's own commits (author filter), ticket documents, notes and tracker activity. Written in the
@@ -460,8 +481,12 @@ Two skills, one shape. Details in [Appendix G](#appendix-g-round-up-and-personal
   happens rather than on Friday. Combines notes, commits, ticket docs and personal updates into the
   client-facing body, keeps working sections (log, needs confirmation, still open) below it, and is
   published by copying last week's document so the template carries over.
+- **Release notes** (PM, Lead, BA): what a release delivers, for the people receiving it. Built from
+  the tickets in the release (latest requirements, solution designs, deployment guidance, test
+  cases) and the merged commits. Business-facing by default, with an admin section for actions such
+  as permission set assignments and post-deployment steps.
 
-Rules for both: client-facing wording that describes outcomes, not file paths or repo layout; no
+Rules for all three: client-facing wording that describes outcomes, not file paths or repo layout; no
 personal data; a source recorded for any line that isn't obvious; anything uncertain goes under
 "Needs confirmation" instead of into a bullet.
 
@@ -488,7 +513,7 @@ never run by the assessment.
 
 | Role | Who |
 |---|---|
-| PM | Plans, status, client communication, reporting |
+| PM | Plans, status, client communication, project updates |
 | Architect | Solution and technical architecture, impact analysis, assessments |
 | Lead | Technical or delivery lead: reviews, merges, deploy approvals |
 | Developer | Apex, LWC, integrations |
@@ -515,20 +540,24 @@ list above.
 | C7 | Hooks | core | (always on) | |
 | C8 | `managing-ticket-branches` | core | Developer, Admin, Lead | superpowers:using-git-worktrees, finishing-a-development-branch |
 | C9 | `contributing-a-lesson` | core | Everyone | superpowers:writing-skills |
-| D1 | `taking-in-a-ticket` | delivery | BA, Lead, Architect, Developer, Admin | superpowers:brainstorming |
-| D2 | `analyzing-impact` | delivery | Architect, Lead, BA | |
-| D3 | `designing-ui-first` | delivery | BA, Architect, Developer | Claude Design |
-| D4 | `writing-solution-designs` | delivery | Architect, Lead | superpowers:brainstorming |
-| D5 | `writing-uat-test-cases` | delivery | BA, QA, Developer, Admin | |
-| D6 | `testing-apex-first` | delivery | Developer | superpowers:test-driven-development, salesforce-development Apex test skills |
-| D7 | `running-functional-qa` | delivery | QA, Developer, Admin | browser automation |
-| D8 | `deploying-safely` | delivery | Developer, Admin, Lead | salesforce-development deploy and validate skills |
-| D9 | `reviewing-salesforce-changes` | delivery | Lead, Architect | superpowers:requesting-code-review |
-| D10 | `logging-with-nebula` | delivery | Developer | |
-| D11 | `salesforce-automation-patterns` | delivery | Architect, Admin, Developer | |
-| R1 | `writing-personal-updates` | reporting | Everyone | |
-| R2 | `compiling-weekly-roundups` | reporting | PM, Lead | Google Workspace connector when available |
+| D1 | `taking-in-a-ticket` | solutioning | BA, Lead, Architect, Developer, Admin | superpowers:brainstorming |
+| D2 | `analyzing-impact` | solutioning | Architect, Lead, BA | |
+| D3 | `designing-ui-first` | solutioning | BA, Architect, Developer | Claude Design |
+| D4 | `writing-solution-designs` | solutioning | Architect, Lead | superpowers:brainstorming |
+| D5 | `writing-uat-test-cases` | solutioning | BA, QA, Developer, Admin | |
+| D6 | `testing-apex-first` | build | Developer | superpowers:test-driven-development, salesforce-development Apex test skills |
+| D7 | `running-functional-qa` | build | QA, Developer, Admin | browser automation |
+| D8 | `deploying-safely` | build | Developer, Admin, Lead | salesforce-development deploy and validate skills |
+| D9 | `reviewing-salesforce-changes` | core | Lead, Architect, Developer | superpowers:requesting-code-review |
+| D10 | `logging-with-nebula` | build | Developer | |
+| D11 | `salesforce-automation-patterns` | core | Architect, Admin, Developer | |
+| R1 | `writing-personal-updates` | project-updates | Everyone | |
+| R2 | `compiling-weekly-roundups` | project-updates | PM, Lead | Google Workspace connector when available |
+| R3 | `writing-release-notes` | project-updates | PM, Lead, BA | |
 | A1 | `assessing-org-health` | assessment | Architect, Lead, PM | |
+
+IDs are stable labels, not plugin codes: the D skills are the ticket workflow wherever they are
+packaged, so backlog references stay valid if a skill moves between plugins.
 
 Each entry below gives what the skill must do and how a builder knows it is done. The "Done when"
 lines are the acceptance tests for the eval scenarios in [section 12](#12-how-we-build-and-test-the-skills).
@@ -555,6 +584,8 @@ Injected at session start by a hook. Runs its checks in this order:
 3. **Adjustments.** Lists the adjustments in [section 6](#6-how-we-adjust-superpowers) in under
    200 words.
 - States the question-batching rule and the technical vs business decision rule.
+- When the ticket workflow reaches a stage whose skill isn't installed (for example a developer
+  without `sfai-solutioning`), names the plugin that provides it and how to install it.
 - **Done when:** with superpowers uninstalled, the session opens with the install commands; with
   superpowers installed, an agent asked to build a ticket change saves its design and plan in the
   profile's location, uses the verify command as its test command, and stops on a business
@@ -804,13 +835,30 @@ The checklist handed to superpowers' reviewers as global constraints:
 
 - Maintains the running weekly file in the profile's location.
 - Merges personal updates.
-- Produces the client body and the working sections ([Appendix G](#appendix-g-round-up-and-personal-update-formats)).
+- Produces the client body and the working sections ([Appendix G](#appendix-g-project-update-formats)).
 - Publishes by copying last week's document when a document connector is available, otherwise
   outputs text to paste.
 - Records the edits the PM made to the draft so the next draft improves.
 - **Done when:** given three personal updates and last week's file, it produces a client body with
   no file paths or personal data, every update represented, and a "Needs confirmation" section for
   anything unsourced.
+
+### R3 `writing-release-notes`
+
+- Asks which release: a range of commits or tags, a date range, or a list of ticket keys.
+- Includes only tickets actually in the release (merged, and deployed to the release's target), and
+  names any ticket it excluded and why.
+- Writes the format in [Appendix G](#appendix-g-project-update-formats):
+  - what's new and changed for users, grouped by business area;
+  - fixes;
+  - actions needed by users, and by admins (taken from each ticket's deployment guidance);
+  - known issues (open client decisions, deferred findings).
+- User sections use field labels and business wording, never API names; the admin section may name
+  components.
+- Saves to the profile's release notes folder and also outputs text to paste.
+- **Done when:** given three fixture tickets, one not yet merged, it writes one entry per included
+  ticket, excludes and names the unmerged one, uses no API names in the user sections, and lists the
+  admin actions from each deployment guidance.
 
 ### A1 `assessing-org-health`
 
@@ -879,8 +927,8 @@ for the architects to debate.
 - **Phase 0, foundation:** repo scaffold and CI, profile template and setup, bootstrap, hooks,
   naming, gotchas, verify command.
 - **Phase 1, three tracks in parallel once the foundation exists:**
-  - Track A: delivery workflow.
-  - Track B: reporting.
+  - Track A: ticket workflow (solutioning, then build).
+  - Track B: project updates.
   - Track C: UI-testing spike.
 - **Phase 2:** functional QA, assessment, logging, lesson contribution, catalog polish.
 
@@ -915,10 +963,17 @@ for the architects to debate.
   changed the component in the org since the branch was cut).
 - Round-up files default to the project repo. The standard client sections are work by theme and
   risks.
+- Five plugins: `sfai-core`, `sfai-solutioning`, `sfai-build`, `sfai-project-updates`,
+  `sfai-assessment`. The ticket workflow splits at the approval gate; automation patterns and the
+  review lens live in core.
+- Project updates include release notes.
 
 ### Calls I made (check these)
 
-- Four plugins grouped by workflow, with roles as tags, rather than one plugin or one per role.
+- The plugin name `sfai-solutioning` (the alternative was `sfai-analysis-design`; `sfai-planning`
+  was rejected because it collides with superpowers' implementation plan and with project
+  planning).
+- Release notes format and its default sections (Appendix G).
 - Dependencies are installed from their own marketplaces with tested versions documented, rather
   than re-listed and pinned in ours (avoids duplicate skills and hooks).
 - The ticket branch and worktree are created at intake; untracked ticket docs live outside every
@@ -1218,14 +1273,14 @@ For projects using Nebula Logger. The profile supplies tags, scenarios and the f
   profile's prefix (default `Error Logged`).
 - Reference: the Nebula Logger documentation (`jongpie/NebulaLogger`).
 
-## Appendix G: Round-up and personal update formats
+## Appendix G: Project update formats
 
 **Weekly file:** one per week, named for the week-ending Friday (`YYYY-MM-DD.md`), in the profile's
-reporting folder (default `weekly-roundups/` in the project repo, kept on the default branch,
+updates folder (default `weekly-roundups/` in the project repo, kept on the default branch,
 never in ticket branches).
 
 **Notes:** free-form notes the person gives the agent, either pasted into the session or kept as
-dated lines in a `notes.md` in the reporting folder.
+dated lines in a `notes.md` in the updates folder.
 
 Front block:
 
@@ -1261,6 +1316,31 @@ body. Never create the document from scratch: the template lives in the document
 **Personal update:** the "Person → themes → bullets" block for one person, plus their risks,
 "Needs confirmation" and what's still open. Built from the person's commits, ticket documents,
 notes and tracker activity, with sources noted.
+
+**Release notes:** one file per release, `<release-name-or-date>.md`, in the profile's release
+notes folder (default `release-notes/` in the project repo).
+
+```
+<Release name> - <date>
+Target: <org or environment>
+
+What's new
+  <Business area>
+    - <outcome in plain words> (<TICKET>)
+Fixes
+  - <what now works> (<TICKET>)
+Actions needed
+  Users
+    - <new steps or changed behavior they must know about>
+  Admins
+    - <permission set assignments, post-deployment steps, jobs to restart>
+Known issues
+  - <limitation or open client decision> (<TICKET>)
+```
+
+Every entry carries its ticket key. User sections follow the same wording rules as UAT test cases
+(field labels, screen wording, no API names). A project can change the sections through its own
+template.
 
 ## Appendix H: Org assessment artifacts
 
