@@ -12,11 +12,19 @@ reference docs. Use sources whenever possible.
 
 1. **architect.salesforce.com**: preferred, and treated as best practice. Start from the
    [Well-Architected framework](https://architect.salesforce.com/docs/architect/well-architected/guide/framework.html).
-2. **salesforceben.com**: the only other acceptable source. Use it when architect.salesforce.com
-   does not cover the point.
+2. **help.salesforce.com**: official Salesforce Help.
+3. **developer.salesforce.com**: official Salesforce developer documentation.
+4. **salesforceben.com**: use it when none of the above covers the point.
 
-No other sources. That includes other Salesforce sites (for example help.salesforce.com,
-developer.salesforce.com, Trailhead), blogs, forums and AI output.
+No other sources. That includes other Salesforce sites (for example Trailhead), blogs, forums
+and AI output.
+
+### Conflicts between sources
+
+The order above sets where to look first and which source to prefer, not how to settle a
+disagreement. If two sources conflict, even when one of them is architect.salesforce.com, do
+not pick one yourself. Bring it to the user for an architect decision, with both claims and
+both deep links.
 
 ### Experience-based guidance
 
