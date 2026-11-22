@@ -6,9 +6,10 @@ you start.
 
 ## Set up
 
-1. Install the dependencies as the [README](../README.md#install) describes.
+1. Install the dependencies as steps 1 and 2 of the [README](../README.md#install) describe.
 2. Clone this repo and add your clone as a local marketplace, so Claude Code reads the plugins in
-   place:
+   place. If you already added `sfai-marketplace` from GitHub, remove it first: only one
+   marketplace per name can be registered.
 
    ```
    claude plugin marketplace add <path-to-your-clone>
@@ -23,8 +24,8 @@ you start.
 ## Pick work
 
 Follow the "what's next" procedure in [CLAUDE.md](../CLAUDE.md#whats-next-procedure): take an
-`Open` item whose dependencies are `Done`, and set it to `In progress` with your name in the first
-commit of your branch.
+`Open` item whose dependencies are `Done`, and set it to `In progress` with your name in the same
+PR as the first change.
 
 ## Branches and commits
 
@@ -43,8 +44,9 @@ commit of your branch.
 - Skill frontmatter: `name`, a `description` that starts with "Use when..." and names triggers
   only, and `metadata.roles` with roles from the list in
   [plan section 10](plan.md#10-roles-and-the-catalog).
-- Scripts and hooks are Node, never bash-only or PowerShell-only, and are built test-first
-  ([plan section 3](plan.md#3-constraints)).
+- Scripts and hooks are Node, never bash-only or PowerShell-only
+  ([plan section 3](plan.md#3-constraints)), and are built test-first
+  ([plan section 12](plan.md#12-how-we-build-and-test-the-skills)).
 - Salesforce guidance needs a source or the `(Architect experience)` tag, as CLAUDE.md sets out.
 - Set model and effort on every subagent dispatch ([plan section 3](plan.md#3-constraints)).
 

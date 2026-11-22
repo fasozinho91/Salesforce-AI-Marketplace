@@ -42,7 +42,8 @@ In a Claude Code session:
 /plugin install integration@salesforce
 ```
 
-`dx-org-lifecycle` covers scratch orgs and permission set assignment for test personas.
+`dx-org-lifecycle` covers Dev Hub and scratch-org allocation, sandboxes, and permission set
+assignment for test personas.
 
 ### 3. This marketplace
 

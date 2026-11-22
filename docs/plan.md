@@ -1006,10 +1006,11 @@ for the architects to debate.
   is installed first by documentation and each skill checks for it.
   **Checked in B01: yes.** `plugin.json` takes a `dependencies` array; a bare name resolves in the
   plugin's own marketplace and is installed with it. The four non-core plugins declare
-  `sfai-core`, and a local install of `sfai-solutioning` alone pulled `sfai-core` in. A dependency
-  in another marketplace also needs `allowCrossMarketplaceDependenciesOn` in our
-  `marketplace.json`; we don't declare superpowers or the Salesforce plugins this way
-  ([section 3](#3-constraints)). Sources:
+  `sfai-core`, and a local install of `sfai-solutioning` alone pulled `sfai-core` in. We don't
+  declare superpowers or the Salesforce plugins as dependencies: a dependency in another
+  marketplace is skipped unless the user already has it or our `marketplace.json` allowlists that
+  marketplace, and a plugin whose dependency is missing fails to load, so `sfai-core` could not
+  load to print the install commands (C1). Sources:
   [Plugin dependencies](https://code.claude.com/docs/en/plugins/dependencies),
   [Plugin manifest reference](https://code.claude.com/docs/en/plugins-reference).
 - That SessionStart-injected text and imported profile instructions take precedence over
