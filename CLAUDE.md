@@ -45,3 +45,21 @@ architects. Mark it inline, right after the statement, with the tag `(Architect 
 
 If a claim cannot be sourced or attributed to architect experience, flag it to the user. Do not
 keep it silently, and do not invent a citation.
+
+## What's next (procedure)
+
+When someone asks "what's next?" in this repo, follow
+[plan.md section 13](docs/plan.md#13-build-order-and-whats-next):
+
+1. Read [docs/build-backlog.md](docs/build-backlog.md).
+2. List items with status `Open` whose dependencies are all `Done`, highest priority first (P0
+   before P1, then by ID).
+3. Show the top few with their plan section and ask which to take (or confirm the top one).
+4. Mark it `In progress` with the person's name in the same PR as the first change, so two
+   architects don't pick the same item.
+5. Build it with the method in
+   [plan.md section 12](docs/plan.md#12-how-we-build-and-test-the-skills).
+6. When the PR merges, mark it `Done`.
+
+How to contribute (branches, versions, evals, public-repo safety) is in
+[docs/contributing.md](docs/contributing.md).
