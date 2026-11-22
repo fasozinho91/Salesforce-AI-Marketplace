@@ -1,0 +1,35 @@
+{
+  "name": "sfai-marketplace",
+  "owner": {
+    "name": "Felipe Sozinho",
+    "url": "https://github.com/fasozinho91"
+  },
+  "description": "Claude Code plugins that bring Salesforce delivery practice to AI agents, built on superpowers and Salesforce's official plugins. Install those dependencies from their own marketplaces first; see README.md.",
+  "plugins": [
+    {
+      "name": "sfai-core",
+      "source": "./plugins/sfai-core",
+      "description": "Bootstrap, project setup, naming standard, platform gotchas, automation patterns, verify command and Code Analyzer rules, branch lifecycle, review lens, hooks, lesson contribution. Required for everyone."
+    },
+    {
+      "name": "sfai-solutioning",
+      "source": "./plugins/sfai-solutioning",
+      "description": "Ticket stages 1 to 6: intake, impact analysis, UI design gate, solution design, UAT test cases. For architects, BAs and leads."
+    },
+    {
+      "name": "sfai-build",
+      "source": "./plugins/sfai-build",
+      "description": "Ticket stages 7 to 13: Apex test-first, functional QA, safe deploy, logging. For developers, admins and QA."
+    },
+    {
+      "name": "sfai-project-updates",
+      "source": "./plugins/sfai-project-updates",
+      "description": "Personal update, weekly round-up, release notes. For PMs, leads and anyone asked for updates."
+    },
+    {
+      "name": "sfai-assessment",
+      "source": "./plugins/sfai-assessment",
+      "description": "Org health assessment. For architects and leads."
+    }
+  ]
+}

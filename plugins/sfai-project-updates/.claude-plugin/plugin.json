@@ -1,0 +1,21 @@
+{
+  "name": "sfai-project-updates",
+  "version": "0.1.0",
+  "description": "Personal update, weekly round-up, release notes. For PMs, leads and anyone asked for updates.",
+  "author": {
+    "name": "Felipe Sozinho",
+    "url": "https://github.com/fasozinho91"
+  },
+  "homepage": "https://github.com/fasozinho91/Salesforce-AI-Marketplace",
+  "repository": "https://github.com/fasozinho91/Salesforce-AI-Marketplace",
+  "license": "MIT",
+  "keywords": [
+    "salesforce",
+    "status",
+    "round-up",
+    "release-notes"
+  ],
+  "dependencies": [
+    "sfai-core"
+  ]
+}
