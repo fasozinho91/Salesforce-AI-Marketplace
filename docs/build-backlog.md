@@ -21,7 +21,7 @@ L (a week or more).
 
 | ID | Item | Plan | Depends on | Size | Status | Owner |
 |---|---|---|---|---|---|---|
-| B01 | Repo scaffold: `marketplace.json` with the five plugin skeletons, `supported-versions.json`, README with install steps (dependencies first, from their own marketplaces), repo `CLAUDE.md` with the "what's next" procedure, `contributing.md` | 3, 4.1, 4.3, 13 | | S | Open | |
+| B01 | Repo scaffold: `marketplace.json` with the five plugin skeletons, `supported-versions.json`, README with install steps (dependencies first, from their own marketplaces), repo `CLAUDE.md` with the "what's next" procedure, `contributing.md` | 3, 4.1, 4.3, 13 | | S | In progress | Felipe Sozinho |
 | B02 | CI: secret scan, client-name/org-ID denylist check (denylist kept outside the repo), SKILL.md frontmatter lint, catalog generator and freshness check | 10, 12 | B01 | M | Open | |
 | B03 | Eval harness: fixture SFDX project (prefix `acme_`) and a local runner for scenario evals with superpowers at the supported version, producing a results file to attach to PRs | 12 | B01 | M | Open | |
 | B04 | Profile template `templates/project-profile.md` (fields, defaults, "Workflow adjustments" block) | 5 | B01 | S | Open | |
