@@ -1,0 +1,22 @@
+{
+  "name": "sfai-build",
+  "version": "0.1.0",
+  "description": "Ticket stages 7 to 13: Apex test-first, functional QA, safe deploy, logging. For developers, admins and QA.",
+  "author": {
+    "name": "Felipe Sozinho",
+    "url": "https://github.com/fasozinho91"
+  },
+  "homepage": "https://github.com/fasozinho91/Salesforce-AI-Marketplace",
+  "repository": "https://github.com/fasozinho91/Salesforce-AI-Marketplace",
+  "license": "MIT",
+  "keywords": [
+    "salesforce",
+    "apex",
+    "testing",
+    "qa",
+    "deploy"
+  ],
+  "dependencies": [
+    "sfai-core"
+  ]
+}

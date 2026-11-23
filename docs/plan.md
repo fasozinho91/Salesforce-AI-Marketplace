@@ -1004,10 +1004,23 @@ for the architects to debate.
   installed and enabled.
 - Whether Claude Code plugins can declare a dependency on another plugin. If not, `sfai-core`
   is installed first by documentation and each skill checks for it.
+  **Checked in B01: yes.** `plugin.json` takes a `dependencies` array; a bare name resolves in the
+  plugin's own marketplace and is installed with it. The four non-core plugins declare
+  `sfai-core`, and a local install of `sfai-solutioning` alone pulled `sfai-core` in. We don't
+  declare superpowers or the Salesforce plugins as dependencies: a dependency in another
+  marketplace is skipped unless the user already has it or our `marketplace.json` allowlists that
+  marketplace, and a plugin whose dependency is missing fails to load, so `sfai-core` could not
+  load to print the install commands (C1). Sources:
+  [Plugin dependencies](https://code.claude.com/docs/en/plugins/dependencies),
+  [Plugin manifest reference](https://code.claude.com/docs/en/plugins-reference).
 - That SessionStart-injected text and imported profile instructions take precedence over
   superpowers' defaults in practice (covered by the section 6 evals).
 - The SKILL.md frontmatter field for roles (`metadata.roles`) is accepted by Claude Code's skill
   loader.
+  **Checked in B01: yes.** `metadata` is a documented SKILL.md field, a free-form map that Claude
+  Code accepts and does not act on, so `metadata.roles: [Architect, Lead]` is safe and stays for
+  our own catalog tooling. A probe skill with that field passed `claude plugin validate --strict`.
+  Source: [Extend Claude with skills](https://code.claude.com/docs/en/skills).
 - CLI support for running Flow Tests.
 - The current Claude Code setting that controls commit and PR attribution, so the profile can set
   it per project.

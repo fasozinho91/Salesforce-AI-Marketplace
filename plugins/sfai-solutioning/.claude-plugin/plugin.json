@@ -1,0 +1,22 @@
+{
+  "name": "sfai-solutioning",
+  "version": "0.1.0",
+  "description": "Ticket stages 1 to 6: intake, impact analysis, UI design gate, solution design, UAT test cases. For architects, BAs and leads.",
+  "author": {
+    "name": "Felipe Sozinho",
+    "url": "https://github.com/fasozinho91"
+  },
+  "homepage": "https://github.com/fasozinho91/Salesforce-AI-Marketplace",
+  "repository": "https://github.com/fasozinho91/Salesforce-AI-Marketplace",
+  "license": "MIT",
+  "keywords": [
+    "salesforce",
+    "ticket",
+    "impact-analysis",
+    "solution-design",
+    "uat"
+  ],
+  "dependencies": [
+    "sfai-core"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "description": "Versions of superpowers and the Salesforce plugins that this marketplace is tested against. They are installed from their own marketplaces, never re-listed in ours. Raising a version requires the full eval suite to pass (docs/plan.md section 12).",
+  "dependencies": [
+    {
+      "name": "superpowers",
+      "level": "required",
+      "marketplace": "superpowers-marketplace",
+      "marketplaceSource": "obra/superpowers-marketplace",
+      "version": "7.0.0",
+      "status": "installed when scaffolded, evals pending"
+    },
+    {
+      "name": "salesforce-development",
+      "level": "required",
+      "marketplace": "salesforce",
+      "marketplaceSource": "forcedotcom/sf-skills",
+      "version": "2.1.1",
+      "status": "installed when scaffolded, evals pending"
+    },
+    {
+      "name": "dx-org-lifecycle",
+      "level": "recommended",
+      "marketplace": "salesforce",
+      "marketplaceSource": "forcedotcom/sf-skills",
+      "version": "0.2.0",
+      "status": "installed when scaffolded, evals pending"
+    },
+    {
+      "name": "integration",
+      "level": "recommended",
+      "marketplace": "salesforce",
+      "marketplaceSource": "forcedotcom/sf-skills",
+      "version": "0.2.0",
+      "status": "installed when scaffolded, evals pending"
+    }
+  ]
+}
